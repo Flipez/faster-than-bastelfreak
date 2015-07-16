@@ -24,7 +24,7 @@
           %form{:method => "get"}
             .form-group
               %label{:for => "ftb-url"} Url
-              %input#ftb-url.form-control{:placeholder => "https://flipez.de/blog", :type => "text", :name => "q", :value => url}
+              %input#ftb-url.form-control{:type => "text", :name => "q", :value => url}
             %button.btn.btn-success.btn-lg{:type => "submit", :value => "Submit"} Compare
         %p
           =yield

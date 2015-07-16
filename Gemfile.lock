@@ -3,9 +3,11 @@ GEM
   specs:
     haml (4.0.6)
       tilt
+    json (1.8.3)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
+    redis (3.2.1)
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -17,6 +19,8 @@ PLATFORMS
 
 DEPENDENCIES
   haml
+  json
+  redis
   sinatra
 
 BUNDLED WITH

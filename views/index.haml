@@ -1,0 +1,20 @@
+%div.panel.panel-info
+  %div.panel-heading
+    Testresuls of the last 24 hours
+  %div.panel-body
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Hostname
+          %th Request time
+          %th Bastelfreak time
+          %th Result
+          %th Timestamp
+      - results.each do |e|
+        %tr
+          %td= e.o_uri
+          %td= e.o_time
+          %td= e.b_time
+          %td= e.result
+          %td= e.created
+    

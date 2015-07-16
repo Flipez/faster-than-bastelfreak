@@ -2,12 +2,12 @@
   %div
     .col-md-4
       %ul.list-group
-        %a.list-group-item.list-group-item-info{:href => url} #{url}
-        %li.list-group-item.list-group-item-success #{opponent} seconds
+        %a.list-group-item.list-group-item-info{:href => m.o_uri} #{m.o_uri}
+        %li.list-group-item.list-group-item-success #{m.o_time} seconds
     .col-md-4
       %ul.list-group
-        %li.list-group-item.list-group-item-info #{result} times faster!
+        %li.list-group-item.list-group-item-info #{m.result} times faster!
     .col-md-4
       %ul.list-group
         %a.list-group-item.list-group-item-info{:href => "https://blog.bastelfreak.de"} https://blog.bastelfreak.de
-        %li.list-group-item.list-group-item-danger #{bastel} seconds
+        %li.list-group-item.list-group-item-danger #{m.b_time} seconds
