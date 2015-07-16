@@ -22,13 +22,21 @@ class Database
     result = Array.new
     keys = @redis.keys('*')
     keys.each do |k|
-      result.push get(k)
+      result.push get(k) if k=~URI::regexp
     end
     sort(result)
   end
 
+  def count_test
+    @redis.incr('test-counter')
+  end
+
+  def number_of_tests
+    @redis.get('test-counter')
+  end
+
   def sort a
-    a.sort_by { |k| -k.result }
+      a.sort_by { |k| -k.result }
   end
 
 end
