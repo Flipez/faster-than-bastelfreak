@@ -1,0 +1,36 @@
+%div.panel.panel-info
+  %div.panel-heading
+    Testresults of the last 24 hours
+    %strong
+      (#{results.size})
+  %div.panel-body
+    %table.table.table-hover
+      %thead
+        %tr
+          %th.text-center Contender
+          %th.text-center Contender time
+          %th.text-center Bastelfreak time
+          %th.text-center FTB&#0153; Score
+          %th.text-center Timestamp
+      - e = results.shift
+      %tr{class: e.color, style: "font-weight: bold;"}
+        %td
+          %a{href:e.o_uri, style: "color: inherit;"}
+            = e.o_uri
+        %td= e.o_time
+        %td= e.b_time
+        %td
+          %span.fa.fa-star
+          = e.result
+          %span.fa.fa-star
+        %td= e.created
+      - results.each do |e|
+        %tr{class: e.color}
+          %td
+            %a{href:e.o_uri, style: "color: inherit;"}
+              = e.o_uri
+          %td= e.o_time
+          %td= e.b_time
+          %td= e.result
+          %td= e.created
+    

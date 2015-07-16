@@ -2,6 +2,6 @@ require 'sinatra'
 set :env, :production
 disable :run
 
-require './app.rb'
+require './ftb_app.rb'
 
 run Sinatra::Application

@@ -5,7 +5,7 @@
 ftb is a small script that calculates how many times the given website is faster than bastelfreaks blog
 Currently under development. Please help improving this app and contribute or open issues!
 
-![Test](http://fs2.directupload.net/images/150715/6stqwtw2.png "Test")
+![Testing Screenshot](http://fs1.directupload.net/images/150717/pgmoxvho.png "Testing Screenshot")
 
 ### Installation
 
@@ -27,6 +27,7 @@ ruby ftb.rb https://flipez.de
 Adjust the unicorn.rb and config.ru at your needs, then run
 
 ```bash
+bundle install
 unicorn -c unicorn.rb -D
 ```
 ### Thanks to
