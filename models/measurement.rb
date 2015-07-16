@@ -1,6 +1,6 @@
 class Measurement
 
-  attr_reader :created, :b_time, :o_time, :o_uri, :result
+  attr_reader :created, :b_time, :o_time, :o_uri, :result, :color
 
   def initialize
     @bastel = URI('https://blog.bastelfreak.de')
@@ -8,13 +8,24 @@ class Measurement
 
   def start o_uri
     @created = Time.now
-    @b_time = measure @bastel
     @o_time = measure o_uri
+    @b_time = measure @bastel
     @o_uri  = o_uri
     @result = calc_result
 
+    if @result < 1
+      @color = 'danger'
+    elsif @result < 20
+      @color = 'warning'
+    elsif @result < 500
+      @color = 'info'
+    else
+      @color = 'success'
+    end
+
     @b_time = round @b_time
     @o_time = round @o_time
+
   end
 
   private

@@ -5,13 +5,23 @@
     %table.table.table-hover
       %thead
         %tr
-          %th Hostname
-          %th Request time
-          %th Bastelfreak time
-          %th Result
-          %th Timestamp
+          %th.text-center Contender
+          %th.text-center Contender time
+          %th.text-center Bastelfreak time
+          %th.text-center FTB&#0153; Score
+          %th.text-center Timestamp
+      - e = results.shift
+      %tr{class: e.color, style: "font-style: bold"}
+        %td= e.o_uri
+        %td= e.o_time
+        %td= e.b_time
+        %td
+          %span.fa.fa-star
+          = e.result
+          %span.fa.fa-star
+        %td= e.created
       - results.each do |e|
-        %tr
+        %tr{class: e.color}
           %td= e.o_uri
           %td= e.o_time
           %td= e.b_time

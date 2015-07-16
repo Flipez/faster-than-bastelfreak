@@ -24,7 +24,11 @@ class Database
     keys.each do |k|
       result.push get(k)
     end
-    result
+    sort(result)
+  end
+
+  def sort a
+    a.sort_by { |k| -k.result }
   end
 
 end

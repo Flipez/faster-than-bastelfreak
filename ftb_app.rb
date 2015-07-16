@@ -10,29 +10,39 @@ require_relative 'models/database'
 
 set :db, Database.new
 
-def show_home url
-  results = settings.db.get_all
-  haml :index, :locals => {:url => url, :results => results}
+def default_host
+  "#{request.scheme}://#{request.host}"
 end
 
-def show_result m
-  haml :result, :locals => {:m => m, :url => m.o_uri}
+def show_error e
+  haml :error, locals: {errormsg: e, o_uri: default_host}
 end
 
 get '/' do
+  results = settings.db.get_all
+  haml :index, :locals => {results: results, o_uri: default_host}
+end
+
+get '/test' do
   url = params['q']
 
   if url=~URI::regexp
     url = URI(url)
    
     m = Measurement.new
-    m.start url
-
-    settings.db.store m
     
-    show_result m   
+    begin
+      m.start url
+    
+      settings.db.store m
+    
+      haml :result, :locals => {m: m, o_uri: m.o_uri}
+    
+    rescue Exception => e
+      show_error e.message
+    end
   
   else
-    show_home 'https://flipez.de/blog'
+    show_error 'No or invalid url given'
   end
 end
