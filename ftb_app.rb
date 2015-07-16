@@ -33,7 +33,7 @@ get '/test' do
   if url=~URI::regexp
     url = URI(url)
    
-    m = Measurement.new
+    m = Measurement.new settings.db
     
     begin
       m.start url
@@ -44,6 +44,7 @@ get '/test' do
       haml :result, :locals => {m: m, o_uri: m.o_uri, tests: number_of_tests}
     
     rescue Exception => e
+      print e.backtrace.join("\n")
       show_error e.message
     end
   

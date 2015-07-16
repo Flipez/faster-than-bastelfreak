@@ -2,14 +2,22 @@ class Measurement
 
   attr_reader :created, :b_time, :o_time, :o_uri, :result, :color
 
-  def initialize
-    @bastel = URI('https://blog.bastelfreak.de')
+  def initialize(redis)
+    @bastel = 'https://blog.bastelfreak.de'
+    @redis = redis
   end
 
   def start o_uri
     @created = Time.now
     @o_time = measure o_uri
-    @b_time = measure @bastel
+
+    if @redis.get('bastel-time')
+      bastel = @redis.get('bastel-time')
+      @b_time = bastel
+    else
+      @b_time = measure URI(@bastel)
+      @redis.set_bastel_time(@b_time)
+    end
     @o_uri  = o_uri
     @result = calc_result
 

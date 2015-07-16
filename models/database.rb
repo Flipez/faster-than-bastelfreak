@@ -10,12 +10,25 @@ class Database
   ##
   # Storing the given object for 24 hours
   def store m
-    @redis.set(m.o_uri, m.to_yaml)
-    @redis.expire(m.o_uri, 86400)
+      @redis.set(m.o_uri, m.to_yaml)
+    if m.o_uri == 'https://blog.bastelfreak.de'
+      @redis.expire(m.o_uri, 600)
+    else
+      @redis.expire(m.o_uri, 86400)
+    end
+  end
+
+  def set_bastel_time value
+    @redis.set('bastel-time', value)
+    @redis.expire('bastel-time', 600)
   end
 
   def get host
-    YAML::load(@redis.get(host))
+    begin
+      YAML::load(@redis.get(host))
+    rescue
+     nil
+    end
   end
 
   def get_all

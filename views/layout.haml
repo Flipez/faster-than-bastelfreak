@@ -32,9 +32,11 @@
         %hr
         %p
           %small
-            Because bastelfreaks blog is so slow, each request will take up to 8 seconds. Please be patient.
+            Because bastelfreaks blog is so slow, his response time will be cached ten minutes long.
             %br
-            I will perform every request in realtime until bastelfreak is complaining about too much traffic.
+            After this time the next request is generating a new response time.
+            %br
+            This will take up to eight seconds.
         .container.text-muted
           %div.col-md-4
             %h1
@@ -43,7 +45,7 @@
           %div.col-md-4
             %h1
               %span.fa.fa-cogs
-            This little application is built with ruby and sinatra and delivered by nginx
+            This little application is built with ruby, sinatra and redis and delivered by nginx
             %br
             %br
             No webservers are harmed during this test
@@ -54,7 +56,9 @@
             %a{href: "https://github.com/Flipez/faster-than-bastelfreak"}
               %span.label.label-info
                 github repository
-              
+        %hr
+        %p.text-muted
+          %small Every test has a time to live of 86400 seconds (24hours) and will be purged from the database after it expires.
         %hr
         %p
           %small.text-muted

@@ -1,6 +1,8 @@
 %div.panel.panel-info
   %div.panel-heading
     Testresults of the last 24 hours
+    %strong
+      (#{results.size})
   %div.panel-body
     %table.table.table-hover
       %thead
@@ -11,8 +13,10 @@
           %th.text-center FTB&#0153; Score
           %th.text-center Timestamp
       - e = results.shift
-      %tr{class: e.color, style: "font-style: bold"}
-        %td= e.o_uri
+      %tr{class: e.color, style: "font-weight: bold;"}
+        %td
+          %a{href:e.o_uri, style: "color: inherit;"}
+            = e.o_uri
         %td= e.o_time
         %td= e.b_time
         %td
@@ -22,7 +26,9 @@
         %td= e.created
       - results.each do |e|
         %tr{class: e.color}
-          %td= e.o_uri
+          %td
+            %a{href:e.o_uri, style: "color: inherit;"}
+              = e.o_uri
           %td= e.o_time
           %td= e.b_time
           %td= e.result
