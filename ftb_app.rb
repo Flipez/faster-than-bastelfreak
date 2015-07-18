@@ -8,6 +8,7 @@ require 'openssl'
 
 require_relative 'models/measurement'
 require_relative 'models/database'
+require_relative 'models/api'
 
 
 set :db, Database.new
@@ -33,15 +34,7 @@ def validate_url url
   end
 end
 
-get '/' do
-  results = settings.db.get_all
-  haml :index, :locals => {results: results, o_uri: default_host, tests: number_of_tests}
-end
-
-get '/test' do
-  url = params['q']
-  uri = validate_url url
-
+def start_test uri
   unless uri
     show_error 'Invalid URL' if not validate_url url
   else
@@ -53,12 +46,34 @@ get '/test' do
 
       settings.db.count_test
       settings.db.store m
-    
-      haml :result, :locals => {m: m, o_uri: m.o_uri, tests: number_of_tests}
-    
+  
+      return m
+
     rescue Exception => e
       print e.backtrace.join("\n")
       show_error e.message
     end
   end
+end
+
+get '/' do
+  results = settings.db.get_all
+  haml :index, :locals => {results: results, o_uri: default_host, tests: number_of_tests}
+end
+
+get '/test' do
+  url = params['q']
+  uri = validate_url url
+
+  result = start_test uri
+  haml :result, :locals => {m: result, o_uri: result.o_uri, tests: number_of_tests}
+end
+
+get '/api' do
+  url = params['q']
+  uri = validate_url url
+
+  result = start_test uri
+  p result
+  show_json result
 end
