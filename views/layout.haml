@@ -10,6 +10,8 @@
     %link{:href => "//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css", :rel => "stylesheet"}
     %link{:href => "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css", :rel => "stylesheet"}
     %link{:href => "/ftb/jumbotron-narrow.css", :rel => "stylesheet"}
+    %script{src: "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"}
+    %script{src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"}
   %body
     .container
       .header.clearfix
@@ -19,14 +21,17 @@
           %span.label.label-danger Beta!
           %span.label.label-info.pull-right #{tests} tests performed!
       .jumbotron
-        %h1 be faster than bastelfreak
+        %h1
+          be faster than bastelfreak
         %p.lead Find out how many times you are faster than bastel!
         %p
           %form{:method => "get", :action => "https://flipez.de/ftb/test"}
             .form-group
               %label{:for => "ftb-url"} URL
               %input#ftb-url.form-control{type: "text", name: "q", value: o_uri, required: true}
-            %button.btn.btn-success.btn-lg{type: "submit", value: "Submit"} Compare
+            %button.btn.btn-success.btn-lg{type: "submit", value: "Submit"}
+              Compare
+              %span.fa.fa-rocket
         %p
           =yield
         %hr

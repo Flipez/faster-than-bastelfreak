@@ -8,6 +8,7 @@
       %thead
         %tr
           %th.text-center Contender
+          %th.text-center SSL
           %th.text-center Contender time
           %th.text-center Bastelfreak time
           %th.text-center FTB&#0153; Score
@@ -17,6 +18,10 @@
         %td
           %a{href:e.o_uri, style: "color: inherit;"}
             = e.o_uri
+        %td
+          %button.label.label-info{'data-toggle' => 'popover',
+                                   'data-content' => "<b>Issuer:</b> #{e.ssl_issuer}<br /><b>Algo</b> #{e.ssl_algo}<br /><b>Size:</b> #{e.ssl_size}<br /><b>From:</b> #{e.ssl_from}<br/ ><b>Until:</b> #{e.ssl_to}<br/ ><b>Cipher:</b> #{e.ssl_cipher}<br/ ><b>TLSv:</b> #{e.ssl_tls}" }
+            Info
         %td= e.o_time
         %td= e.b_time
         %td
@@ -29,8 +34,15 @@
           %td
             %a{href:e.o_uri, style: "color: inherit;"}
               = e.o_uri
+          %td
+            %button.label.label-info{'data-toggle' => 'popover',
+                                     'data-content' => "<b>Issuer:</b> #{e.ssl_issuer}<br /><b>Algo</b> #{e.ssl_algo}<br /><b>Size:</b> #{e.ssl_size}<br /><b>From:</b> #{e.ssl_from}<br/ ><b>Until:</b> #{e.ssl_to}<br/ ><b>Cipher:</b> #{e.ssl_cipher}<br/ ><b>TLSv:</b> #{e.ssl_tls}" }
+              Info
           %td= e.o_time
           %td= e.b_time
           %td= e.result
           %td= e.created
-    
+%script
+  $(document).ready(function(){
+  $('[data-toggle="popover"]').popover({html: true, trigger: 'hover', title: 'SSL Info'}); 
+  });
