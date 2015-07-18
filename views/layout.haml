@@ -19,6 +19,8 @@
           %a{:href => "https://flipez.de/ftb"}
             faster than bastelfreak
           %span.label.label-danger Beta!
+          %a{href: 'https://github.com/Flipez/faster-than-bastelfreak/issues/new'}
+            %span.label.label-warning Please send me your feedback!
           %span.label.label-info.pull-right #{tests} tests performed!
       .jumbotron
         %h1
@@ -28,7 +30,7 @@
           %form{:method => "get", :action => "https://flipez.de/ftb/test"}
             .form-group
               %label{:for => "ftb-url"} URL
-              %input#ftb-url.form-control{type: "text", name: "q", value: o_uri, required: true}
+              %input#ftb-url.form-control.input-lg.text-center{type: "text", name: "q", value: o_uri, required: true, style: 'width: 40%; margin-left: auto; margin-right: auto;'}
             %button.btn.btn-success.btn-lg{type: "submit", value: "Submit"}
               Compare
               %span.fa.fa-rocket
