@@ -13,6 +13,7 @@
           %th.text-center Bastelfreak time
           %th.text-center FTB&#0153; Score
           %th.text-center Timestamp
+          %th.text-center.fa.fa-refresh
       - e = results.shift
       %tr{class: e.color, style: "font-weight: bold;"}
         %td
@@ -29,6 +30,9 @@
           = e.result
           %span.fa.fa-star
         %td= e.created
+        %td
+          %a.label.label-warning{href: "https://flipez.de/ftb/test?q=#{e.o_uri}", title: 'Test again'}
+            %span.fa.fa-refresh
       - results.each do |e|
         %tr{class: e.color}
           %td
@@ -42,6 +46,9 @@
           %td= e.b_time
           %td= e.result
           %td= e.created
+          %td
+            %a.label.label-warning{href: "https://flipez.de/ftb/test?q=#{e.o_uri}", title: 'Test again'}
+              %span.fa.fa-refresh
 %script
   $(document).ready(function(){
   $('[data-toggle="popover"]').popover({html: true, trigger: 'hover', title: 'SSL Info'}); 
