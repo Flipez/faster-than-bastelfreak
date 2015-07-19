@@ -64,9 +64,12 @@ end
 get '/test' do
   url = params['q']
   uri = validate_url url
-
-  result = start_test uri
-  haml :result, :locals => {m: result, o_uri: result.o_uri, tests: number_of_tests}
+  unless uri
+    show_error 'Invalid URL' if not validate_url url
+  else
+    result = start_test uri
+    haml :result, :locals => {m: result, o_uri: result.o_uri, tests: number_of_tests}
+  end
 end
 
 get '/api' do
