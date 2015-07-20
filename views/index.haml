@@ -14,25 +14,26 @@
           %th.text-center FTB&#0153; Score
           %th.text-center Timestamp
           %th.text-center.fa.fa-refresh
-      - e = results.shift
-      %tr{class: e.color, style: "font-weight: bold;"}
-        %td
-          %a{href:e.o_uri, style: "color: inherit;"}
-            = e.o_uri
-        %td
-          %button.label.label-info{'data-toggle' => 'popover',
-                                   'data-content' => "<b>Issuer:</b> #{e.ssl_issuer}<br /><b>Algo</b> #{e.ssl_algo}<br /><b>Size:</b> #{e.ssl_size}<br /><b>From:</b> #{e.ssl_from}<br/ ><b>Until:</b> #{e.ssl_to}<br/ ><b>Cipher:</b> #{e.ssl_cipher}<br/ ><b>TLSv:</b> #{e.ssl_tls}" }
-            Info
-        %td= e.o_time
-        %td= e.b_time
-        %td
-          %span.fa.fa-star
-          = e.result
-          %span.fa.fa-star
-        %td= e.created
-        %td
-          %a.label.label-warning{href: "https://flipez.de/ftb/test?q=#{e.o_uri}", title: 'Test again'}
-            %span.fa.fa-refresh
+      - if results.size >= 1
+        -  e = results.shift
+        %tr{class: e.color, style: "font-weight: bold;"}
+          %td
+            %a{href:e.o_uri, style: "color: inherit;"}
+              = e.o_uri
+          %td
+            %button.label.label-info{'data-toggle' => 'popover',
+                                     'data-content' => "<b>Issuer:</b> #{e.ssl_issuer}<br /><b>Algo</b> #{e.ssl_algo}<br /><b>Size:</b> #{e.ssl_size}<br /><b>From:</b> #{e.ssl_from}<br/ ><b>Until:</b> #{e.ssl_to}<br/ ><b>Cipher:</b> #{e.ssl_cipher}<br/ ><b>TLSv:</b> #{e.ssl_tls}" }
+              Info
+          %td= e.o_time
+          %td= e.b_time
+          %td
+            %span.fa.fa-star
+            = e.result
+            %span.fa.fa-star
+          %td= e.created
+          %td
+            %a.label.label-warning{href: "https://flipez.de/ftb/test?q=#{e.o_uri}", title: 'Test again'}
+              %span.fa.fa-refresh
       - results.each do |e|
         %tr{class: e.color}
           %td
