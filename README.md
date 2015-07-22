@@ -24,7 +24,7 @@ ruby ftb.rb https://flipez.de
 
 #### Webapplication
 
-Adjust the unicorn.rb and config.ru at your needs, then run
+Adjust the puma.rb and config.ru at your needs, then run
 
 ```bash
 bundle
