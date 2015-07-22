@@ -5,6 +5,7 @@ require 'net/http'
 require 'haml'
 require 'socket'
 require 'openssl'
+require 'json'
 
 require_relative 'models/measurement'
 require_relative 'models/database'
@@ -22,7 +23,7 @@ def number_of_tests
 end
 
 def show_error e
-  haml :error, locals: {errormsg: e, o_uri: default_host, tests: number_of_tests}
+  halt  haml :error, locals: {errormsg: e, o_uri: default_host, tests: number_of_tests}
 end
 
 def validate_url url
@@ -35,24 +36,19 @@ def validate_url url
 end
 
 def start_test uri
-  unless uri
-    show_error 'Invalid URL' if not validate_url url
-  else
-   
-    m = Measurement.new settings.db
-    
-    begin
-      m.start uri
+  m = Measurement.new settings.db
 
-      settings.db.count_test
-      settings.db.store m
-  
-      return m
+  begin
+    m.start uri
 
-    rescue Exception => e
-      print e.backtrace.join("\n")
-      show_error e.message
-    end
+    settings.db.count_test
+    settings.db.store m
+
+    return m
+
+  rescue Exception => e
+    print e.backtrace.join("\n")
+    show_error e.message
   end
 end
 
@@ -64,19 +60,21 @@ end
 get '/test' do
   url = params['q']
   uri = validate_url url
-  unless uri
-    show_error 'Invalid URL' if not validate_url url
-  else
+  if uri
     result = start_test uri
     haml :result, :locals => {m: result, o_uri: result.o_uri, tests: number_of_tests}
+  else
+    show_error 'Invalid URL'
   end
 end
 
 get '/api' do
   url = params['q']
   uri = validate_url url
-
-  result = start_test uri
-  p result
-  show_json result
+  if uri
+    result = start_test uri
+    show_json result
+  else
+    {error: 'Invalid URL'}.to_json
+  end
 end

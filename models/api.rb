@@ -1,5 +1,3 @@
-require 'json'
-
 def show_json r
   result = {test: {created: r.created,
                    b_time: r.b_time,
