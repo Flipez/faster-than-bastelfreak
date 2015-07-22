@@ -1,8 +1,9 @@
 require 'rubygems'
 require 'sinatra'
+require 'sinatra/contrib'
 require 'benchmark'
 require 'net/http'
-require 'haml'
+require 'tilt/haml'
 require 'socket'
 require 'openssl'
 require 'json'
@@ -10,46 +11,19 @@ require 'json'
 require_relative 'models/measurement'
 require_relative 'models/database'
 require_relative 'models/api'
-
+require_relative 'models/helper'
+require_relative 'models/error'
 
 set :db, Database.new
 
-def default_host
-  "#{request.scheme}://#{request.host}"
-end
-
-def number_of_tests
-  settings.db.number_of_tests
-end
-
-def show_error e
-  halt  haml :error, locals: {errormsg: e, o_uri: default_host, tests: number_of_tests}
-end
-
-def validate_url url
-  uri = URI.parse(url)
-  if uri.instance_of? URI::HTTPS
-    uri 
+before /.*/ do
+  if request.path_info.match(/.json$/)
+    content_type :json, 'charset' => 'utf-8'
+    request.accept.unshift('application/json')
+    request.path_info = request.path_info.gsub(/.json$/,'')
   else
-    false
-  end
-end
-
-def start_test uri
-  m = Measurement.new settings.db
-
-  begin
-    m.start uri
-
-    settings.db.count_test
-    settings.db.store m
-
-    return m
-
-  rescue Exception => e
-    print e.backtrace.join("\n")
-    show_error e.message
-  end
+    content_type :html, 'charset' => 'utf-8'
+ end
 end
 
 get '/' do
@@ -57,24 +31,14 @@ get '/' do
   haml :index, :locals => {results: results, o_uri: default_host, tests: number_of_tests}
 end
 
-get '/test' do
+get '/test', provides: [:html, :json] do
   url = params['q']
   uri = validate_url url
   if uri
     result = start_test uri
-    haml :result, :locals => {m: result, o_uri: result.o_uri, tests: number_of_tests}
+    show_result result
   else
     show_error 'Invalid URL'
   end
 end
 
-get '/api' do
-  url = params['q']
-  uri = validate_url url
-  if uri
-    result = start_test uri
-    show_json result
-  else
-    {error: 'Invalid URL'}.to_json
-  end
-end
