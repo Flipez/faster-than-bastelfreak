@@ -8,11 +8,11 @@ require 'socket'
 require 'openssl'
 require 'json'
 
+require_relative 'lib/database'
 require_relative 'models/measurement'
-require_relative 'models/database'
-require_relative 'models/api'
-require_relative 'models/helper'
-require_relative 'models/error'
+require_relative 'ftb_app/api'
+require_relative 'ftb_app/helper'
+require_relative 'ftb_app/error'
 
 set :db, Database.new
 
