@@ -27,8 +27,8 @@ ruby ftb.rb https://flipez.de
 Adjust the unicorn.rb and config.ru at your needs, then run
 
 ```bash
-bundle install
-unicorn -c unicorn.rb -D
+bundle
+puma -C puma.rb
 ```
 ### Thanks to
 
