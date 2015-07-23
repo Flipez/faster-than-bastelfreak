@@ -6,10 +6,12 @@ error SocketError do
   show_error 'URL is either not reachable or does not exist'
 end
 
+error Errno::ENETUNREACH do
+  show_error 'Network is unreachable'
+end
+
 error do
   show_error 'An unknown error occured'
-  print env['sinatra.error']
-  print env['sinatra.error'].message
 end
 
 def show_error e

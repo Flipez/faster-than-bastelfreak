@@ -57,30 +57,43 @@ class Measurement
   end
 
   def parse_ssl
-    tcp_c = TCPSocket.new(@o_uri.host, @o_uri.port)
-    ssl_c = ssl_client = OpenSSL::SSL::SSLSocket.new(tcp_c)
-    ssl_c.connect
+      tcp_c = TCPSocket.new(@o_uri.hostname, @o_uri.port)
+      ssl_cx = OpenSSL::SSL::SSLContext.new
+      ssl_cx.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      ssl_c =OpenSSL::SSL::SSLSocket.new(tcp_c, ssl_cx)
+      ssl_c.hostname = @o_uri.hostname
+      ssl_c.sync = true
+      ssl_c.connect
 
-    @ssl_cipher = ssl_c.cipher[0]
-    @ssl_tls = ssl_c.cipher[1]
+      @ssl_cipher = ssl_c.cipher[0]
+      @ssl_tls = ssl_c.cipher[1]
 
-    cert = OpenSSL::X509::Certificate.new(ssl_c.peer_cert)
+      cert = OpenSSL::X509::Certificate.new(ssl_c.peer_cert)
 
-    ssl_c.sysclose
-    tcp_c.close
+      ssl_c.sysclose
+      tcp_c.close
 
-    certprops = OpenSSL::X509::Name.new(cert.issuer).to_a
-
-    @ssl_issuer = certprops.select { |name, data, type| name == "O" }.first[1]
-    @ssl_algo = cert.signature_algorithm
-    @ssl_size = cert.public_key.n.num_bytes * 8
-    @ssl_from = cert.not_before
-    @ssl_to = cert.not_after
+      certprops = OpenSSL::X509::Name.new(cert.issuer).to_a
+      p certprops.inspect
+      if certprops.size > 1
+        @ssl_issuer = certprops[1][3]
+      else
+        @ssl_issuer = certprops[0][1]
+      end
+      @ssl_algo = cert.signature_algorithm
+      @ssl_size = cert.public_key.n.num_bytes * 8
+      @ssl_from = cert.not_before
+      @ssl_to = cert.not_after
 
   end
 
   def req uri
-    Net::HTTP.get_response uri
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+    request = Net::HTTP::Get.new(uri.request_uri)
+    response = http.request(request)
   end
 
 end

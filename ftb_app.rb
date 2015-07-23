@@ -7,6 +7,7 @@ require 'tilt/haml'
 require 'socket'
 require 'openssl'
 require 'json'
+require 'sinatra/logger'
 
 require_relative 'lib/database'
 require_relative 'models/measurement'
@@ -15,6 +16,8 @@ require_relative 'ftb_app/helper'
 require_relative 'ftb_app/error'
 
 set :db, Database.new
+
+set :root, '/home/robert/git/faster-than-bastelfreak/'
 
 before /.*/ do
   if request.path_info.match(/.json$/)
@@ -34,6 +37,7 @@ end
 get '/test', provides: [:html, :json] do
   url = params['q']
   uri = validate_url url
+  logger.debug(uri)
   if uri
     result = start_test uri
     show_result result
