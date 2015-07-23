@@ -34,6 +34,10 @@
             %button.btn.btn-success.btn-lg{type: "submit", value: "Submit"}
               Compare
               %span.fa.fa-rocket
+            %div.checkbox
+              %label
+                %input{type: :checkbox, name: :force}
+                Force realtime benchmark
         %p
           =yield
         %hr

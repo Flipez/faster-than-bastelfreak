@@ -20,6 +20,8 @@ set :db, Database.new
 set :root, '/home/robert/git/faster-than-bastelfreak/'
 
 before /.*/ do
+  settings.db.clear_bastel if params['force'] == 'on'
+
   if request.path_info.match(/.json$/)
     content_type :json, 'charset' => 'utf-8'
     request.accept.unshift('application/json')

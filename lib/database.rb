@@ -52,4 +52,7 @@ class Database
       a.sort_by { |k| -k.result }
   end
 
+  def clear_bastel
+    @redis.del('bastel-time')
+  end
 end
