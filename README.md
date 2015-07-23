@@ -15,16 +15,22 @@ git clone https://github.com/Flipez/faster-than-bastelfreak.git
 
 ### Usage
 
+Please note that it is important to enter the full URL including a valid scheme (`https://`)
+
+#### API
+
+Perform a GET request to `https://flipez.de/ftb/test.json?q=https://example.com` to get the result JSON formatted.
+
+#### Webapplication
+
+Adjust the puma.rb and config.ru at your needs, then run
+
 #### Command line
 You can simple use the command line to compare with bastelfreaks blog
 
 ```bash
 ruby ftb.rb https://flipez.de
 ```
-
-#### Webapplication
-
-Adjust the puma.rb and config.ru at your needs, then run
 
 ```bash
 bundle
